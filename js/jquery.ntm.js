@@ -1,4 +1,4 @@
-﻿/* jQuery Nxeed's Tree Menu v1 | (c) 2014 Nxeed | https://github.com/nxeed */
+/* jQuery Nxeed's Tree Menu v1 | (c) 2014 Nxeed | https://github.com/nxeed */
 
 (function($) {
     var defaults = {
@@ -29,6 +29,7 @@
                 if (options.autoParentDetection) {
                     if (item.has('ul')[0]) {
                         item.addClass(options.parentClass);
+                        item.attr('id',"listId-"+num); //adds id to the expand/collapse button in tree structure
                     }
                 }
 
@@ -52,7 +53,10 @@
                         parent.addClass(options.activeClass);
                     }
                 }
-
+                
+                if(params){
+                    params.postRender(); //Added to call js function passed as param to ntm function
+                }
                 //Thinesh - Explicitly hide the code that children nodes are expanded automatically next refresh.
                 //if (parent.hasClass(options.selectedClass)) {
                     //parent.removeClass(options.activeClass).removeClass(options.collapseClass).addClass(options.expandClass);
@@ -84,6 +88,9 @@
                     }
 
                     e.preventDefault();
+                }
+                if(params){
+                    params.postRender(); //Added to call js function passed as param to ntm function
                 }
             });
         }
