@@ -19,12 +19,13 @@
     };
     var methods = {
         init: function(params) {
-            var options = $.extend({}, defaults, params );
+            var options = $.extend({}, defaults, params);
 
             var items = this.find('li');
 
             $.each(items, function(num, item) {
                 item = $(item);
+
                 if (options.autoParentDetection) {
                     if (item.has('ul')[0]) {
                         item.addClass(options.parentClass);
@@ -51,9 +52,8 @@
                     if (options.autoActiveDetection) {
                         parent.addClass(options.activeClass);
                     }
-
                 }
-                options.postRender();//Added to call js function if it is passed as param to ntm function else $noop will be called
+                options.postRender(); //Added to call js function if it is passed as param to ntm function else $noop will be called
 
                 //Thinesh - Explicitly hide the code that children nodes are expanded automatically next refresh.
                 //if (parent.hasClass(options.selectedClass)) {
@@ -87,9 +87,7 @@
 
                     e.preventDefault();
                 }
-
                 options.postRender(); //Added to call js function if it is passed as param to ntm function else $noop will be called
-
             });
         }
     };
@@ -98,7 +96,7 @@
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {
-            return methods.init.apply(this,arguments);
+            return methods.init.apply(this, arguments);
         } else {
             $.error('Метод "' + method + '" не найден в плагине jQuery.ntm');
         }
