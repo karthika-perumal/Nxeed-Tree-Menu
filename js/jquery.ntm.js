@@ -1,4 +1,4 @@
-﻿/* jQuery Nxeed's Tree Menu v1 | (c) 2014 Nxeed | https://github.com/nxeed */
+/* jQuery Nxeed's Tree Menu v1 | (c) 2014 Nxeed | https://github.com/nxeed */
 
 (function($) {
     var defaults = {
@@ -14,9 +14,9 @@
         spoilerButtonClickMaxX: 20,
         spoilerButtonClickMinY: 8,
         spoilerButtonClickMaxY: 24,
-        slideEffect: true
+        slideEffect: true,
+        postRender : function () { $.noop }
     };
-
     var methods = {
         init: function(params) {
             var options = $.extend({}, defaults, params);
@@ -29,6 +29,7 @@
                 if (options.autoParentDetection) {
                     if (item.has('ul')[0]) {
                         item.addClass(options.parentClass);
+                        item.attr('id',"node-"+num);
                     }
                 }
 
@@ -52,6 +53,7 @@
                         parent.addClass(options.activeClass);
                     }
                 }
+                options.postRender(); //Added to call js function if it is passed as param to ntm function else $noop will be called
 
                 //Thinesh - Explicitly hide the code that children nodes are expanded automatically next refresh.
                 //if (parent.hasClass(options.selectedClass)) {
@@ -85,6 +87,7 @@
 
                     e.preventDefault();
                 }
+                options.postRender(); //Added to call js function if it is passed as param to ntm function else $noop will be called
             });
         }
     };
