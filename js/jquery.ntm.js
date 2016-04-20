@@ -14,22 +14,21 @@
         spoilerButtonClickMaxX: 20,
         spoilerButtonClickMinY: 8,
         spoilerButtonClickMaxY: 24,
-        slideEffect: true
+        slideEffect: true,
+        postRender : function () { $.noop }
     };
-
     var methods = {
         init: function(params) {
-            var options = $.extend({}, defaults, params);
+            var options = $.extend({}, defaults, params );
 
             var items = this.find('li');
 
             $.each(items, function(num, item) {
                 item = $(item);
-
                 if (options.autoParentDetection) {
                     if (item.has('ul')[0]) {
                         item.addClass(options.parentClass);
-                        item.attr('id',"listId-"+num); //adds id to the expand/collapse button in tree structure
+                        item.attr('id',"node-"+num);
                     }
                 }
 
@@ -52,11 +51,10 @@
                     if (options.autoActiveDetection) {
                         parent.addClass(options.activeClass);
                     }
+
                 }
-                
-                if(params){
-                    params.postRender(); //Added to call js function passed as param to ntm function
-                }
+                options.postRender();//Added to call js function if it is passed as param to ntm function else $noop will be called
+
                 //Thinesh - Explicitly hide the code that children nodes are expanded automatically next refresh.
                 //if (parent.hasClass(options.selectedClass)) {
                     //parent.removeClass(options.activeClass).removeClass(options.collapseClass).addClass(options.expandClass);
@@ -89,9 +87,9 @@
 
                     e.preventDefault();
                 }
-                if(params){
-                    params.postRender(); //Added to call js function passed as param to ntm function
-                }
+
+                options.postRender(); //Added to call js function if it is passed as param to ntm function else $noop will be called
+
             });
         }
     };
@@ -100,7 +98,7 @@
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {
-            return methods.init.apply(this, arguments);
+            return methods.init.apply(this,arguments);
         } else {
             $.error('Метод "' + method + '" не найден в плагине jQuery.ntm');
         }
